@@ -1,0 +1,13 @@
+body{
+	font-family: Arial;
+	font-size: 11px;
+	padding: 5px;
+}
+
+strong{
+	display: inline-block;
+	color: #ffffff;
+	background-color: #005edf;
+	font-weight: 400;
+	padding: 2px;
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Note Editor - Test Task</title>
+	<meta charset="utf-8">
+	<script src="https://use.fontawesome.com/ace2dbfcb3.js"></script>
+	<link rel="icon" 
+      type="image/png" 
+      href="favicon.ico">
+</head>
+<body onload="initialiseEditor()">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<header><h1><i class="fa fa-bookmark" aria-hidden="true"></i> Notes</h1></header>
+	<div class="editor-body">
+		<div class="editor-control">
+			<button class="btn btn-dark" onclick="revealModal('new-record-modal')">Create Note</button>
+			<button class="btn btn-red" onclick="revealModal('clear-ls-modal')">Clear Local Storage</button>
+		</div>
+
+		<div class="records-count block-header" id="records-count"></div>
+		
+		
+		<span class="record-context" id="record-name">
+			<span class="record-context__name" id="selected-record-name">No Active Records</span>
+			<button class="btn btn-light" id="save-record" onclick="saveRecord()">Save Changes</button>
+			<button class="btn btn-light" id="rename-record" onclick="revealModal('rename-record-modal')">Rename</button>
+			<button class="btn btn-red" id="delete-record" onclick="revealModal('delete-record-modal')">Delete</button>
+		</span>
+
+		<div class="filter-block" id="filter-block">
+			<input type="text" name="" id="filter-input" placeholder=" Filter by..." size="30" onkeyup="filterRecords()">
+			<select  id='filter-param'>
+				<option value="1" selected="selected">Name</option>
+				<option value="2">Tag</option>
+			</select>
+		</div>
+
+		<div class="styling-control-panel">
+			<button class="editor-btn btn btn-light" onclick="exeFormatCmd('bold')"><i class="fa fa-bold"></i></button>
+			<button class="editor-btn btn btn-light" onclick="exeFormatCmd('italic')"><i class="fa fa-italic"></i></button>
+			<button class="editor-btn btn btn-light" onclick="exeFormatCmd('underline')"><i class="fa fa-underline"></i></button>
+			<button class="editor-btn btn btn-light" onclick="exeFormatCmd('strikethrough')"><i class="fa fa-strikethrough"></i></button>
+		</div>
+
+		<nav class="records-nav" id="records-nav" onclick="setActiveRecord('none');updateList();document.getElementById("editor-workspace").contentWindow.document.body.innerHTML = activeRecord.value;">
+			<ul class="records-list" id="records-list"></ul>
+		</nav>
+		
+		<!-- WORKSPACE BLOCK -->
+
+		<iframe class="editor-workspace" id="editor-workspace" name="editorWorkspace">></iframe>
+
+		<!-- TAG BLOCK -->
+
+		<div class="tags-nav" id="tags-nav">
+			<div class="tags-pool" id="tags-pool">
+				
+			</div>
+		</div>		
+		
+		<!-- NEW RECORD MODAL WINDOW -->
+
+		<div class="modal-window" id="new-record-modal">
+			<div class="modal-window__header">
+				<span class="block-header">Create</span>
+								
+			</div>
+			<form>
+			  <span class="modal-window__caption">Name</span>
+			  <input type="text" class="modal-window__input-field" maxlength="22" name="new-record-name" id="new-record-name" placeholder="record-name" size="35">
+			</form>
+			<div class="modal-window__footer">
+				<button class="btn btn-light" id="cancel-record-creation" onclick="closeModal('new-record-modal')">Cancel</button>
+				<button class="btn btn-light" id="confirm-record-creation" onclick="createNewRecord()">Confirm</button>			
+			</div>
+			<div class="alert" id="alert">Please enter a name</div>
+		</div>
+
+		<!-- RENAME MODAL WINDOW -->
+
+		<div class="modal-window" id="rename-record-modal">
+			<div class="modal-window__header">
+				<span class="block-header">Rename</span>
+								
+			</div>
+			<form>
+			  <span class="modal-window__caption">Name</span>
+			  <input type="text" class="modal-window__input-field" maxlength="22" name="rename-record-name" id="rename-record-name" size="35">
+			</form>
+			<div class="modal-window__footer">
+				<button class="btn btn-light" id="cancel-record-creation" onclick="closeModal('rename-record-modal')">Cancel</button>
+				<button class="btn btn-light" id="confirm-record-creation" onclick="renameRecord()">Save Change</button>			
+			</div>
+			<div class="alert" id="alert-rename">Please enter a name</div>
+		</div>
+
+		<!-- DELETE MODAL WINDOW -->
+
+		<div class="modal-window modal-window__compact" id="delete-record-modal">
+			<div class="modal-window__header">
+				<span class="block-header">Are you sure?</span>
+								
+			</div>
+			<div class="modal-window__footer">
+				<button class="btn btn-light" id="cancel-record-creation" onclick="closeModal('delete-record-modal')">No</button>
+				<button class="btn btn-light" id="confirm-record-creation" onclick="deleteRecord()">Yes</button>			
+			</div>
+		</div>
+
+		<!-- SAVE MODAL -->
+
+		<div class="modal-window modal-window__compact" id="save-alert-window">
+			<div class="modal-window__header">
+				<span class="block-header">Record Saved</span>
+			</div>
+			<div class="modal-window__footer">
+				<button class="btn btn-light" id="cancel-record-creation" onclick="closeModal('save-alert-window')">OK</button>		
+			</div>
+		</div>
+
+		<!-- CLEAR S MODAL WINDOW -->
+
+		<div class="modal-window modal-window__v2" id="clear-ls-modal">
+			<div class="modal-window__header">
+				<span class="block-header">This action will wipe all of your data. Are you sure? </span>
+								
+			</div>
+			<div class="modal-window__footer">
+				<button class="btn btn-light" id="cancel-record-creation" onclick="closeModal('clear-ls-modal')">No</button>
+				<button class="btn btn-light" id="confirm-record-creation" onclick="clearLocalStorage()">Yes</button>			
+			</div>
+		</div>
+	</div>
+	<div class="focus-overlay" id="focus-overlay"></div>
+
+	<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
